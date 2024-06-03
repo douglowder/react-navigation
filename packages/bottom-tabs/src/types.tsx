@@ -215,6 +215,11 @@ export type BottomTabNavigationOptions = HeaderOptions & {
   tabBarStyle?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
 
   /**
+   * Position of the tab bar
+   */
+  tabBarPosition?: 'top' | 'bottom';
+
+  /**
    * Function which returns a React Element to use as background for the tab bar.
    * You could render an image, a gradient, blur view etc.
    *

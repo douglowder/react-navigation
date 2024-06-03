@@ -51,6 +51,9 @@ export default function BottomTabView(props: Props) {
     setLoaded([...loaded, focusedRouteKey]);
   }
 
+  const tabBarOnTop =
+    descriptors[state.routes[state.index].key].options.tabBarPosition === 'top';
+
   const dimensions = SafeAreaProviderCompat.initialMetrics.frame;
   const [tabBarHeight, setTabBarHeight] = React.useState(() =>
     getTabBarHeight({
@@ -90,6 +93,11 @@ export default function BottomTabView(props: Props) {
 
   return (
     <SafeAreaProviderCompat>
+      {tabBarOnTop && (
+        <BottomTabBarHeightCallbackContext.Provider value={setTabBarHeight}>
+          {renderTabBar()}
+        </BottomTabBarHeightCallbackContext.Provider>
+      )}
       <MaybeScreenContainer
         enabled={detachInactiveScreens}
         hasTwoStates
@@ -155,9 +163,11 @@ export default function BottomTabView(props: Props) {
           );
         })}
       </MaybeScreenContainer>
-      <BottomTabBarHeightCallbackContext.Provider value={setTabBarHeight}>
-        {renderTabBar()}
-      </BottomTabBarHeightCallbackContext.Provider>
+      {!tabBarOnTop && (
+        <BottomTabBarHeightCallbackContext.Provider value={setTabBarHeight}>
+          {renderTabBar()}
+        </BottomTabBarHeightCallbackContext.Provider>
+      )}
     </SafeAreaProviderCompat>
   );
 }
